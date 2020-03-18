@@ -1,0 +1,17 @@
+/**
+  $hov 样式  $col：横向或者是纵向 flex布局复用
+ */
+@mixin flex ($hov:space-between, $col: center) {
+  display: flex;
+  justify-content: $hov;
+  align-items: $col;
+}
+// 背景图的$w宽，$h表示高，$img表示图片， $size表示background-size
+@mixin bgImg ($w:0,$h:0,$img:'',$size:contain) {
+  display: inline-block;
+  width: $w;
+  height: $h;
+  background: url($img) no-repeat center;
+  background-size: $size;
+  margin-right: 4px;
+}

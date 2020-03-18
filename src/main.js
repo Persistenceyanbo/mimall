@@ -6,8 +6,7 @@ import VueAxios from 'vue-axios'
 import env from './env'
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
-import './assets/scss/config.scss'
-import './assets/scss/reset.scss'
+
 // mock开关
 const mock = true; // 只有mock为true的时候才会被加载，其他的时候是不会被加载的
 if (mock) {
