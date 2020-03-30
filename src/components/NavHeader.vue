@@ -29,7 +29,7 @@
                 <li class="product" v-for="(item, index) in phoneList" :key="index">
                   <a :href="'/#/product/'+item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" alt="item.subtitle">
+                      <img v-lazy="'item.mainImage'" alt="item.subtitle">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{ item.price | currency }}</div>
@@ -49,7 +49,7 @@
                 <li class="product">
                   <a href="javascript:;" target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-1.jpg" alt="">
+                      <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt="">
                     </div>
                     <div class="pro-name">小米CC9</div>
                     <div class="pro-price">1799元</div>
@@ -58,7 +58,7 @@
                 <li class="product">
                   <a href="javascript:;" target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-2.jpg" alt="">
+                      <img v-lazy="'/imgs/nav-img/nav-3-2.jpg'" alt="">
                     </div>
                     <div class="pro-name">小米CC9</div>
                     <div class="pro-price">1799元</div>
@@ -67,7 +67,7 @@
                 <li class="product">
                   <a href="javascript:;" target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-3.jpg" alt="">
+                      <img v-lazy="'/imgs/nav-img/nav-3-3.jpg'" alt="">
                     </div>
                     <div class="pro-name">小米CC9</div>
                     <div class="pro-price">1799元</div>
@@ -76,7 +76,7 @@
                 <li class="product">
                   <a href="javascript:;" target="_blank">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3-4.jpg" alt="">
+                      <img v-lazy="'/imgs/nav-img/nav-3-4.jpg'" alt="">
                     </div>
                     <div class="pro-name">小米CC9</div>
                     <div class="pro-price">1799元</div>
@@ -171,6 +171,9 @@
           display: inline-block;
           color: #b0b0b0;
           margin-right: 17px;
+          &:last-child {
+            margin-right: 0;
+          }
         }
 
         .my-cart {

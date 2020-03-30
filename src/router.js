@@ -10,6 +10,7 @@ import OrderConfirm from './pages/orderConfirm'
 import OrderPay from './pages/orderPay'
 import OrderList from './pages/orderList.vue'
 import AliPay from './pages/aliPay.vue'
+import Login from './pages/login.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +23,7 @@ export default new VueRouter({
             redirect: '/index',
             children: [
                 {
-                    path: '/',
+                    path: '/index',
                     name: 'index',
                     component: Index,
                 },
@@ -42,6 +43,11 @@ export default new VueRouter({
             path: '/cart',
             name: 'cart',
             component: Cart
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
             path: '/order',

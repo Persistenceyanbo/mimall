@@ -57,7 +57,7 @@
                 </swiper>
                 <div class="ads-box">
                     <a :href="'/#/product/' + item.id" v-for="(item, index) in adsList" :key="index">
-                        <img :src="item.img " alt="">
+                        <img v-lazy="item.img " alt="">
                     </a>
                 </div>
                 <div class="banner">
@@ -73,20 +73,21 @@
                 <div class="wrapper">
                     <div class="banner-left">
                         <div class="item-image">
-                            <img href="/#/product/35" src="/imgs/mix-alpha.jpg" alt="">
+                            <img href="/#/product/35" src="/imgs/mix-alpha.jpg" alt="" >
                         </div>
                     </div>
                     <div class="list-box">
                         <div class="list" v-for="(arr, index) in phoneList" :key="index">
                             <div class="item" v-for="(item, index) in arr" :key="index">
-                                <span>新品</span>
+                                <span :class="{'new-pro': index % 2 == 0}">新品</span>
+                                <span :class="{'kill-pro': index % 2 != 0}">秒杀</span>
                                 <div class="item-image">
-                                    <img href="" src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d295c4fb500d163a7045dc715b47f808.jpg?thumb=1&w=200&h=200&f=webp&q=90" alt="">
+                                    <img href="" v-lazy=item.mainImage alt="" width="100%">
                                 </div>
                                 <div class="item-info">
-                                    <h3>小米9</h3>
-                                    <p class="desc">骁龙855，索尼4800万超广角微距</p>
-                                    <p class="price">2999元</p>
+                                    <h3>{{item.name}}</h3>
+                                    <p class="desc">{{item.subtitle}}</p>
+                                    <p class="price" @click="addCart">{{item.price}}元</p>
                                 </div>
                             </div>
                         </div>
@@ -95,22 +96,36 @@
             </div>
         </div>
         <service-bar></service-bar>
+        <modal
+            title="提示"
+            sure-text="查看购物车"
+            btn-type="3"
+            modal-type="middle"
+            :show-modal="showModal"
+            @submit="goToCart" @cancel="showModal=false">
+            <template v-slot:body>
+                <p>商品添加成功</p>
+            </template>
+        </modal>
     </div>
 </template>
 
 <script>
 import ServiceBar from './../components/ServiceBar.vue'
 import { swiper, swiperSlide} from 'vue-awesome-swiper'
+import Modal from './../components/Modal.vue'
 import "swiper/dist/css/swiper.css"
 export default {
     name: 'index',
     components: {
         swiper,
         swiperSlide,
-        ServiceBar
+        ServiceBar,
+        Modal
     },
     data () {
         return {
+            showModal:false,
             swiperOption: {
                 loop: true,
                 autoplay: true,
@@ -202,7 +217,39 @@ export default {
             phoneList:[
                 [1, 1, 1, 1],
                 [1, 1, 1, 1]
-            ]
+            ],
+
+        }
+    },
+    mounted() {
+        this.init()
+    },
+    methods: {
+        init () {
+            this.axios.get('/products', {
+                params: {
+                    categoryId: 100012,
+                    pageSize: 14
+                }
+            }).then((res) => {
+                res.list = res.list.slice(6,14)
+                this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]
+            })
+        },
+        addCart () {
+            this.showModal = true;
+            return;
+            /*this.axios.post('/carts', {
+                productId: id,
+                selected: true
+            }).then(() => {
+
+            }).catch(() => {
+                this.showModal = true;
+            })*/
+        },
+        goToCart() {
+            this.$router.push('/cart');
         }
     }
 }
@@ -341,7 +388,24 @@ export default {
                             height: 302px;
                             background-color: #fff;
                             text-align: center;
+                            span {
+                                display: inline-block;
+                                width: 67px;
+                                height: 24px;
+                                font-size: 14px;
+                                line-height: 24px;
+                                color: #fff;
+                                &.new-pro {
+                                    background-color: #7ECF68;
+                                    margin-left: 50px;
+                                }
+                                &.kill-pro {
+                                    background-color: #E82626;
+                                    margin-right: 64px;
+                                }
+                            }
                             .item-image {
+                                width: 100%;
                                 height: 195px;
                             }
                             .item-info {
